@@ -305,26 +305,11 @@
       box-shadow: 0 14px 30px rgba(41, 36, 29, 0.09);
     }
 
-    /*
-      PROJECT SCREENSHOTS
-      Replace each .shot-placeholder div below with a real screenshot:
-        <img src="/images/project-name.png" alt="Screenshot of ..." loading="lazy">
-      (drop image files into public/images/)
-    */
-    .shot-placeholder {
-      aspect-ratio: 16 / 10;
-      display: grid;
-      place-items: center;
-      color: var(--cream);
-      font-size: 0.85rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      font-weight: 600;
-    }
-    .shot-a { background: linear-gradient(135deg, var(--pine), var(--pine-soft)); }
-    .shot-b { background: linear-gradient(135deg, var(--clay-deep), var(--clay)); }
+    .project-accent { height: 8px; }
+    .accent-a { background: linear-gradient(90deg, var(--clay-deep), var(--clay)); }
+    .accent-b { background: linear-gradient(90deg, var(--pine), var(--pine-soft)); }
 
-    .project-body { padding: 1.5rem; }
+    .project-body { padding: 1.75rem 1.5rem; }
     .project-body h3 { font-size: 1.3rem; margin-bottom: 0.4rem; }
     .project-body .tag {
       font-size: 0.78rem;
@@ -517,24 +502,22 @@
 
       <div class="work-grid">
         <article class="project reveal">
-          <!-- Replace with: <img src="/images/campus-cash.png" alt="Screenshot of Campus Cash" loading="lazy"> -->
-          <div class="shot-placeholder shot-a" role="img" aria-label="Campus Cash screenshot placeholder">Screenshot coming soon</div>
+          <div class="project-accent accent-a"></div>
           <div class="project-body">
-            <span class="tag">Full-stack web app</span>
-            <h3>Campus Cash</h3>
-            <p>A web app that helps students take control of their money — track spending, stay on budget, and make their cash go further on campus. Built end to end and deployed on Railway.</p>
-            <p><a class="project-link" href="https://campuscash-production.up.railway.app" target="_blank" rel="noopener">Visit live site →</a></p>
+            <span class="tag">AI · SaaS platform</span>
+            <h3>PitchVault</h3>
+            <p>A platform where investors discover and research startups. It handles user accounts, paid subscriptions, and secure payments, and uses AI to generate instant research briefs on any startup. Built from scratch and live right now.</p>
+            <p><a class="project-link" href="https://pitchvaultv-3-production.up.railway.app" target="_blank" rel="noopener">Visit live site →</a></p>
           </div>
         </article>
 
         <article class="project reveal">
-          <!-- Replace with: <img src="/images/pitchvault.png" alt="Screenshot of PitchVault" loading="lazy"> -->
-          <div class="shot-placeholder shot-b" role="img" aria-label="PitchVault screenshot placeholder">Screenshot coming soon</div>
+          <div class="project-accent accent-b"></div>
           <div class="project-body">
-            <span class="tag">Full-stack web app</span>
-            <h3>PitchVault</h3>
-            <p>A platform for founders to store, organize, and share their startup pitches in one secure place. Built end to end and deployed on Railway.</p>
-            <p><a class="project-link" href="https://pitchvaultv-3-production.up.railway.app" target="_blank" rel="noopener">Visit live site →</a></p>
+            <span class="tag">AI · Personal finance</span>
+            <h3>CampusCash</h3>
+            <p>A money-tracking app for college students. Users log their spending and get personalized AI feedback on their habits — like a financial coach in their pocket. Designed, built, and launched entirely solo.</p>
+            <p><a class="project-link" href="https://campuscash-production.up.railway.app" target="_blank" rel="noopener">Visit live site →</a></p>
           </div>
         </article>
       </div>

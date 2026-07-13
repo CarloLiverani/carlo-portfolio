@@ -40,14 +40,3 @@ Submissions go to `carloliverani2011@icloud.com` by default (override with
 2. Railway auto-detects Node and runs `npm start`; the server reads `PORT`
    from the environment automatically.
 3. Add the email variables above under **Variables**.
-
-## Adding real project screenshots
-
-In `public/index.html`, each project card contains a
-`<div class="shot-placeholder">`. Replace it with an image tag, e.g.:
-
-```html
-<img src="/images/project-1.png" alt="Screenshot of the project" loading="lazy">
-```
-
-and drop your screenshots into `public/images/`.
