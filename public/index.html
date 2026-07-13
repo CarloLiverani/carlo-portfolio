@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carlo Liverani — Freelance Web Developer</title>
+  <meta name="description" content="Freelance web developer building fast, friendly websites for small businesses. Design, development, and ongoing care — all from one person you can actually talk to.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='46' fill='%23BE5A38'/%3E%3Ctext x='50' y='68' font-size='52' text-anchor='middle' fill='%23FAF5EC' font-family='Georgia'%3EC%3C/text%3E%3C/svg%3E">
+
+  <style>
+    /* ------------------------------------------------------------------
+       Design tokens
+    ------------------------------------------------------------------ */
+    :root {
+      --cream:      #FAF5EC;
+      --cream-soft: #F2EADC;
+      --ink:        #29241D;
+      --ink-soft:   #5C554A;
+      --clay:       #BE5A38;
+      --clay-deep:  #A34A2B;
+      --pine:       #2E463E;
+      --pine-soft:  #3D5A50;
+      --line:       #E4D9C6;
+
+      --font-display: "Fraunces", Georgia, serif;
+      --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                   "Helvetica Neue", Arial, sans-serif;
+
+      --radius: 14px;
+      --header-h: 64px;
+      --pad: clamp(1.25rem, 5vw, 2.5rem);
+    }
+
+    /* ------------------------------------------------------------------
+       Base
+    ------------------------------------------------------------------ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: calc(var(--header-h) + 12px);
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--cream);
+      color: var(--ink);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    img { max-width: 100%; display: block; }
+
+    h1, h2, h3 {
+      font-family: var(--font-display);
+      font-weight: 600;
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+    }
+
+    a { color: var(--clay-deep); }
+
+    section { padding: clamp(4rem, 10vw, 7rem) var(--pad); }
+
+    .wrap { max-width: 68rem; margin: 0 auto; }
+
+    .eyebrow {
+      display: inline-block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--clay-deep);
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-size: clamp(1.8rem, 5vw, 2.6rem);
+      margin-bottom: 0.75rem;
+    }
+
+    .section-lede {
+      color: var(--ink-soft);
+      max-width: 38rem;
+      margin-bottom: clamp(2rem, 6vw, 3.5rem);
+    }
+
+    /* ------------------------------------------------------------------
+       Reveal-on-scroll animation (disabled if reduced motion is preferred)
+    ------------------------------------------------------------------ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .reveal { opacity: 1; transform: none; transition: none; }
+    }
+
+    /* ------------------------------------------------------------------
+       Header / nav
+    ------------------------------------------------------------------ */
+    header {
+      position: fixed;
+      inset: 0 0 auto 0;
+      height: var(--header-h);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 var(--pad);
+      background: rgba(250, 245, 236, 0.88);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+      z-index: 50;
+    }
+
+    .logo {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--ink);
+      text-decoration: none;
+    }
+    .logo span { color: var(--clay); }
+
+    .nav-toggle {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 44px;
+      height: 44px;
+      padding: 10px;
+      background: none;
+      border: 0;
+      cursor: pointer;
+    }
+    .nav-toggle .bar {
+      height: 2px;
+      width: 100%;
+      background: var(--ink);
+      border-radius: 2px;
+      transition: transform 0.25s ease, opacity 0.25s ease;
+    }
+    .nav-toggle[aria-expanded="true"] .bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-toggle[aria-expanded="true"] .bar:nth-child(2) { opacity: 0; }
+    .nav-toggle[aria-expanded="true"] .bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    nav {
+      position: fixed;
+      top: var(--header-h);
+      left: 0;
+      right: 0;
+      background: var(--cream);
+      border-bottom: 1px solid var(--line);
+      display: none;
+      flex-direction: column;
+      padding: 0.5rem var(--pad) 1rem;
+    }
+    nav.open { display: flex; }
+
+    nav a {
+      padding: 0.85rem 0;
+      font-weight: 500;
+      color: var(--ink);
+      text-decoration: none;
+      border-bottom: 1px solid var(--line);
+    }
+    nav a:last-child { border-bottom: 0; }
+    nav a:hover { color: var(--clay-deep); }
+
+    @media (min-width: 720px) {
+      .nav-toggle { display: none; }
+      nav {
+        position: static;
+        display: flex;
+        flex-direction: row;
+        gap: 2rem;
+        background: none;
+        border: 0;
+        padding: 0;
+      }
+      nav a { border: 0; padding: 0.25rem 0; }
+    }
+
+    /* ------------------------------------------------------------------
+       Hero
+    ------------------------------------------------------------------ */
+    .hero {
+      padding-top: calc(var(--header-h) + clamp(3.5rem, 12vw, 7rem));
+      padding-bottom: clamp(4rem, 12vw, 7rem);
+      background:
+        radial-gradient(60rem 30rem at 85% -10%, rgba(190, 90, 56, 0.09), transparent 60%),
+        radial-gradient(50rem 26rem at -10% 110%, rgba(46, 70, 62, 0.08), transparent 60%),
+        var(--cream);
+    }
+
+    .hero h1 {
+      font-size: clamp(2.4rem, 8vw, 4.2rem);
+      max-width: 16em;
+      margin-bottom: 1.25rem;
+    }
+    .hero h1 em {
+      font-style: italic;
+      color: var(--clay);
+    }
+
+    .hero p {
+      font-size: clamp(1.05rem, 2.5vw, 1.2rem);
+      color: var(--ink-soft);
+      max-width: 34rem;
+      margin-bottom: 2.25rem;
+    }
+
+    .cta-row { display: flex; flex-wrap: wrap; gap: 0.85rem; }
+
+    .btn {
+      display: inline-block;
+      padding: 0.9rem 1.6rem;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 1rem;
+      text-decoration: none;
+      transition: transform 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+      border: 1.5px solid transparent;
+      cursor: pointer;
+    }
+    .btn:active { transform: scale(0.97); }
+
+    .btn-primary { background: var(--clay); color: #fff; }
+    .btn-primary:hover { background: var(--clay-deep); }
+
+    .btn-ghost {
+      border-color: var(--ink);
+      color: var(--ink);
+      background: transparent;
+    }
+    .btn-ghost:hover { background: var(--ink); color: var(--cream); }
+
+    /* ------------------------------------------------------------------
+       Services
+    ------------------------------------------------------------------ */
+    .services { background: var(--cream-soft); }
+
+    .card-grid {
+      display: grid;
+      gap: 1.25rem;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 720px) {
+      .card-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    .card {
+      background: var(--cream);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 1.75rem 1.5rem;
+    }
+
+    .card .icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: rgba(190, 90, 56, 0.12);
+      color: var(--clay-deep);
+      margin-bottom: 1.1rem;
+    }
+    .card .icon svg { width: 22px; height: 22px; }
+
+    .card h3 { font-size: 1.25rem; margin-bottom: 0.5rem; }
+    .card p { color: var(--ink-soft); font-size: 0.97rem; }
+
+    /* ------------------------------------------------------------------
+       Work / projects
+    ------------------------------------------------------------------ */
+    .work-grid {
+      display: grid;
+      gap: 2rem;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 720px) {
+      .work-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    .project {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: #fff;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .project:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 14px 30px rgba(41, 36, 29, 0.09);
+    }
+
+    /*
+      PROJECT SCREENSHOTS
+      Replace each .shot-placeholder div below with a real screenshot:
+        <img src="/images/project-name.png" alt="Screenshot of ..." loading="lazy">
+      (drop image files into public/images/)
+    */
+    .shot-placeholder {
+      aspect-ratio: 16 / 10;
+      display: grid;
+      place-items: center;
+      color: var(--cream);
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+    .shot-a { background: linear-gradient(135deg, var(--pine), var(--pine-soft)); }
+    .shot-b { background: linear-gradient(135deg, var(--clay-deep), var(--clay)); }
+
+    .project-body { padding: 1.5rem; }
+    .project-body h3 { font-size: 1.3rem; margin-bottom: 0.4rem; }
+    .project-body .tag {
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--clay-deep);
+    }
+    .project-body p { color: var(--ink-soft); font-size: 0.97rem; margin-top: 0.5rem; }
+
+    /* ------------------------------------------------------------------
+       About
+    ------------------------------------------------------------------ */
+    .about { background: var(--pine); color: var(--cream); }
+    .about .eyebrow { color: #E8B296; }
+    .about .section-title { color: var(--cream); }
+    .about p { color: rgba(250, 245, 236, 0.82); max-width: 40rem; }
+    .about p + p { margin-top: 1rem; }
+
+    .about-facts {
+      margin-top: 2.5rem;
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 600px) {
+      .about-facts { grid-template-columns: repeat(3, 1fr); }
+    }
+    .fact {
+      border: 1px solid rgba(250, 245, 236, 0.2);
+      border-radius: var(--radius);
+      padding: 1.1rem 1.25rem;
+    }
+    .fact strong {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      color: #E8B296;
+    }
+    .fact span { font-size: 0.9rem; color: rgba(250, 245, 236, 0.75); }
+
+    /* ------------------------------------------------------------------
+       Contact
+    ------------------------------------------------------------------ */
+    .contact-inner {
+      display: grid;
+      gap: 2.5rem;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 820px) {
+      .contact-inner { grid-template-columns: 5fr 6fr; align-items: start; }
+    }
+
+    .contact-note { color: var(--ink-soft); max-width: 26rem; }
+    .contact-note .direct { margin-top: 1.25rem; font-size: 0.95rem; }
+
+    form {
+      display: grid;
+      gap: 1.1rem;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: clamp(1.25rem, 4vw, 2rem);
+    }
+
+    label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 0.35rem;
+    }
+
+    input, textarea {
+      width: 100%;
+      font: inherit;
+      color: var(--ink);
+      background: var(--cream);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 0.8rem 0.95rem;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: var(--clay);
+      box-shadow: 0 0 0 3px rgba(190, 90, 56, 0.15);
+    }
+    textarea { min-height: 9rem; resize: vertical; }
+
+    .form-status {
+      font-size: 0.95rem;
+      min-height: 1.4em;
+    }
+    .form-status.ok { color: #2E6B45; }
+    .form-status.error { color: #A3402B; }
+
+    /* ------------------------------------------------------------------
+       Footer
+    ------------------------------------------------------------------ */
+    footer {
+      padding: 2rem var(--pad);
+      border-top: 1px solid var(--line);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 2rem;
+      justify-content: space-between;
+      color: var(--ink-soft);
+      font-size: 0.9rem;
+    }
+    footer a { color: var(--ink-soft); }
+  </style>
+</head>
+<body>
+
+  <!-- ================= Header ================= -->
+  <header>
+    <a class="logo" href="#top">Carlo Liverani<span>.</span></a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Toggle navigation">
+      <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+    </button>
+    <nav id="site-nav">
+      <a href="#services">Services</a>
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <!-- ================= Hero ================= -->
+  <section class="hero" id="top">
+    <div class="wrap">
+      <span class="eyebrow reveal">Freelance web developer</span>
+      <h1 class="reveal">Websites that work as hard as <em>you</em> do.</h1>
+      <p class="reveal">I build fast, friendly websites for small businesses — designed to bring in customers, easy to update, and cared for by one person you can actually talk to.</p>
+      <div class="cta-row reveal">
+        <a class="btn btn-primary" href="#contact">Start a project</a>
+        <a class="btn btn-ghost" href="#work">See my work</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= Services ================= -->
+  <section class="services" id="services">
+    <div class="wrap">
+      <span class="eyebrow reveal">What I do</span>
+      <h2 class="section-title reveal">Everything your business needs online</h2>
+      <p class="section-lede reveal">No agencies, no runaround. You work directly with me from the first sketch to launch day — and beyond.</p>
+
+      <div class="card-grid">
+        <div class="card reveal">
+          <div class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="15" rx="2"/><path d="M2 9h20M8 21h8"/></svg>
+          </div>
+          <h3>Websites that convert</h3>
+          <p>Custom-designed sites for small businesses — clear, welcoming, and built to turn visitors into phone calls, bookings, and sales.</p>
+        </div>
+        <div class="card reveal">
+          <div class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1.5"/><circle cx="19" cy="21" r="1.5"/><path d="M2 3h3l2.7 12.4a2 2 0 0 0 2 1.6h8.7a2 2 0 0 0 2-1.6L22 7H6"/></svg>
+          </div>
+          <h3>Online shops</h3>
+          <p>Simple, secure e-commerce so your products are for sale around the clock — without you needing to learn a complicated platform.</p>
+        </div>
+        <div class="card reveal">
+          <div class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.6-9.3-9A5.4 5.4 0 0 1 12 6.3 5.4 5.4 0 0 1 21.3 12C19 16.4 12 21 12 21z"/></svg>
+          </div>
+          <h3>Care &amp; speed</h3>
+          <p>Ongoing updates, security, and performance tuning. Your site stays fast, safe, and current while you run your business.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= Work ================= -->
+  <section id="work">
+    <div class="wrap">
+      <span class="eyebrow reveal">Selected work</span>
+      <h2 class="section-title reveal">Recent projects</h2>
+      <p class="section-lede reveal">A couple of examples of what working together can look like.</p>
+
+      <div class="work-grid">
+        <article class="project reveal">
+          <!-- Replace with: <img src="/images/project-1.png" alt="Screenshot of project one" loading="lazy"> -->
+          <div class="shot-placeholder shot-a" role="img" aria-label="Project screenshot placeholder">Screenshot coming soon</div>
+          <div class="project-body">
+            <span class="tag">Local business · Website</span>
+            <h3>Project One</h3>
+            <p>Short description of the project: who the client is, what problem the site solved, and the result it delivered for their business.</p>
+          </div>
+        </article>
+
+        <article class="project reveal">
+          <!-- Replace with: <img src="/images/project-2.png" alt="Screenshot of project two" loading="lazy"> -->
+          <div class="shot-placeholder shot-b" role="img" aria-label="Project screenshot placeholder">Screenshot coming soon</div>
+          <div class="project-body">
+            <span class="tag">E-commerce · Online shop</span>
+            <h3>Project Two</h3>
+            <p>Short description of the project: who the client is, what problem the site solved, and the result it delivered for their business.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= About ================= -->
+  <section class="about" id="about">
+    <div class="wrap">
+      <span class="eyebrow reveal">About me</span>
+      <h2 class="section-title reveal">Hi, I’m Carlo.</h2>
+      <p class="reveal">I’m a freelance web developer who works with small businesses that want a website they can be proud of — without the agency price tag or the tech headaches.</p>
+      <p class="reveal">When you work with me, you get one point of contact, plain-language answers, and a site built with care: fast to load, easy to find on Google, and simple to keep up to date.</p>
+
+      <div class="about-facts">
+        <div class="fact reveal"><strong>1:1</strong><span>You always talk directly to the person building your site</span></div>
+        <div class="fact reveal"><strong>&lt; 2s</strong><span>Target load time on a phone — because your customers won’t wait</span></div>
+        <div class="fact reveal"><strong>100%</strong><span>Yours — you own your site, your domain, and your content</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= Contact ================= -->
+  <section id="contact">
+    <div class="wrap">
+      <span class="eyebrow reveal">Get in touch</span>
+      <h2 class="section-title reveal">Let’s build something together</h2>
+
+      <div class="contact-inner">
+        <div class="contact-note reveal">
+          <p>Tell me a bit about your business and what you have in mind. I’ll get back to you within one business day with honest advice and a clear next step — no pressure, no jargon.</p>
+          <p class="direct">Prefer email? Reach me directly at <a href="mailto:you@example.com">you@example.com</a>.</p>
+        </div>
+
+        <form id="contact-form" class="reveal" novalidate>
+          <div>
+            <label for="name">Your name</label>
+            <input id="name" name="name" type="text" autocomplete="name" required>
+          </div>
+          <div>
+            <label for="email">Email address</label>
+            <input id="email" name="email" type="email" autocomplete="email" required>
+          </div>
+          <div>
+            <label for="message">What can I help you with?</label>
+            <textarea id="message" name="message" required placeholder="A few sentences about your business and what you’re looking for…"></textarea>
+          </div>
+          <button class="btn btn-primary" type="submit">Send message</button>
+          <p class="form-status" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= Footer ================= -->
+  <footer>
+    <span>© <span id="year"></span> Carlo Liverani — Freelance Web Developer</span>
+    <a href="#top">Back to top ↑</a>
+  </footer>
+
+  <script>
+    // ----- Mobile navigation -----
+    const toggle = document.querySelector('.nav-toggle');
+    const nav = document.getElementById('site-nav');
+
+    toggle.addEventListener('click', () => {
+      const open = nav.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', String(open));
+    });
+
+    // Close the menu after tapping a link (mobile)
+    nav.addEventListener('click', (e) => {
+      if (e.target.tagName === 'A') {
+        nav.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    // ----- Reveal-on-scroll animations -----
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const revealEls = document.querySelectorAll('.reveal');
+
+    if (reduceMotion || !('IntersectionObserver' in window)) {
+      revealEls.forEach((el) => el.classList.add('visible'));
+    } else {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+      revealEls.forEach((el) => observer.observe(el));
+    }
+
+    // ----- Contact form -----
+    const form = document.getElementById('contact-form');
+    const status = form.querySelector('.form-status');
+    const submitBtn = form.querySelector('button[type="submit"]');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      status.textContent = '';
+      status.className = 'form-status';
+
+      const data = {
+        name: form.name.value.trim(),
+        email: form.email.value.trim(),
+        message: form.message.value.trim(),
+      };
+
+      if (!data.name || !data.email || !data.message) {
+        status.textContent = 'Please fill in all three fields.';
+        status.classList.add('error');
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending…';
+
+      try {
+        const res = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+        const body = await res.json().catch(() => ({}));
+
+        if (res.ok && body.ok) {
+          status.textContent = 'Thanks! Your message is on its way — I’ll reply within one business day.';
+          status.classList.add('ok');
+          form.reset();
+        } else {
+          status.textContent = body.error || 'Something went wrong. Please try again or email me directly.';
+          status.classList.add('error');
+        }
+      } catch {
+        status.textContent = 'Network error — please try again or email me directly.';
+        status.classList.add('error');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Send message';
+      }
+    });
+
+    // ----- Footer year -----
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
