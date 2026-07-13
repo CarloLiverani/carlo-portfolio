@@ -14,25 +14,24 @@ npm start
 
 ## Contact form email setup
 
-The form POSTs to `/api/contact`. Until email is configured, submissions are
+The form POSTs to `/api/contact`, which sends email through
+[Resend](https://resend.com)'s HTTPS API. (This avoids traditional SMTP ports,
+which hosts like Railway block.) Until `RESEND_API_KEY` is set, submissions are
 **logged to the server console** (and the form still shows success), so the
 site works out of the box.
 
-To enable real email delivery, set these environment variables (on Railway:
-project → Variables). Any SMTP provider works — Resend, Postmark, SendGrid,
-Mailgun, or a Gmail app password:
+To enable real email delivery, create a Resend API key and set these
+environment variables (on Railway: project → Variables):
 
-| Variable             | Example                    | Notes                              |
-| -------------------- | -------------------------- | ---------------------------------- |
-| `SMTP_HOST`          | `smtp.resend.com`          | Your provider's SMTP host          |
-| `SMTP_PORT`          | `587`                      | Optional, defaults to 587          |
-| `SMTP_USER`          | `resend`                   | SMTP username / API key name       |
-| `SMTP_PASS`          | `re_xxxxxxxx`              | SMTP password / API key            |
-| `CONTACT_TO_EMAIL`   | `carloliverani2011@icloud.com` | Where submissions are delivered (this is the default) |
-| `CONTACT_FROM_EMAIL` | `portfolio@yourdomain.com` | Sender address (must be verified with most providers) |
+| Variable             | Example                        | Notes                                              |
+| -------------------- | ------------------------------ | -------------------------------------------------- |
+| `RESEND_API_KEY`     | `re_xxxxxxxx`                  | **Required.** Your Resend API key                  |
+| `CONTACT_TO_EMAIL`   | `carloliverani2011@icloud.com` | Where submissions land (this is the default)       |
+| `CONTACT_FROM_EMAIL` | `onboarding@resend.dev`        | Sender address; defaults to Resend's shared sender |
 
-Submissions go to `carloliverani2011@icloud.com` by default (override with
-`CONTACT_TO_EMAIL`).
+`CONTACT_FROM_EMAIL` defaults to `onboarding@resend.dev`, which works with no
+setup. To send from your own domain, verify it in Resend and set this to an
+address on that domain.
 
 ## Deploy on Railway
 
