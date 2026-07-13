@@ -21,7 +21,7 @@ const PORT = process.env.PORT || 3000;
 // ---------------------------------------------------------------------------
 // Email configuration (placeholder — fill in via environment variables)
 // ---------------------------------------------------------------------------
-const CONTACT_TO_EMAIL = process.env.CONTACT_TO_EMAIL || 'you@example.com';
+const CONTACT_TO_EMAIL = process.env.CONTACT_TO_EMAIL || 'carloliverani2011@icloud.com';
 const CONTACT_FROM_EMAIL = process.env.CONTACT_FROM_EMAIL || 'portfolio@example.com';
 
 const smtpConfigured = Boolean(

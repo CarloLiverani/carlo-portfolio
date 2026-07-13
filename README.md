@@ -28,11 +28,11 @@ Mailgun, or a Gmail app password:
 | `SMTP_PORT`          | `587`                      | Optional, defaults to 587          |
 | `SMTP_USER`          | `resend`                   | SMTP username / API key name       |
 | `SMTP_PASS`          | `re_xxxxxxxx`              | SMTP password / API key            |
-| `CONTACT_TO_EMAIL`   | `carlo@example.com`        | Where submissions are delivered    |
+| `CONTACT_TO_EMAIL`   | `carloliverani2011@icloud.com` | Where submissions are delivered (this is the default) |
 | `CONTACT_FROM_EMAIL` | `portfolio@yourdomain.com` | Sender address (must be verified with most providers) |
 
-Also update the two `you@example.com` placeholders in
-`public/index.html` (the "Prefer email?" link in the contact section).
+Submissions go to `carloliverani2011@icloud.com` by default (override with
+`CONTACT_TO_EMAIL`).
 
 ## Deploy on Railway
 
