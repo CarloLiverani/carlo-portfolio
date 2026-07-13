@@ -639,11 +639,16 @@
       submitBtn.disabled = true;
       submitBtn.textContent = 'Sending…';
 
+      // Give up after 20s so the button never spins forever.
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 20000);
+
       try {
         const res = await fetch('/api/contact', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(data),
+          signal: controller.signal,
         });
         const body = await res.json().catch(() => ({}));
 
@@ -656,9 +661,10 @@
           status.classList.add('error');
         }
       } catch {
-        status.textContent = 'Network error — please try again or email me directly.';
+        status.textContent = 'That took too long — please try again, or email me directly at carloliverani2011@icloud.com.';
         status.classList.add('error');
       } finally {
+        clearTimeout(timeout);
         submitBtn.disabled = false;
         submitBtn.textContent = 'Send message';
       }

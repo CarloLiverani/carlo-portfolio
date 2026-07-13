@@ -37,6 +37,11 @@ const transporter = smtpConfigured
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASS,
       },
+      // Fail fast instead of hanging if the mail port is blocked or the
+      // server is unreachable — the form should never spin forever.
+      connectionTimeout: 10000,
+      greetingTimeout: 10000,
+      socketTimeout: 15000,
     })
   : null;
 
