@@ -275,25 +275,110 @@
       margin-bottom: 2.25rem;
     }
 
-    /* Line-art browser window floating behind the hero copy — "builds for the web" */
-    .hero-art {
+    /* Two-column hero on larger screens; stacks on mobile */
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: clamp(2.5rem, 6vw, 4rem);
+      align-items: center;
+    }
+    @media (min-width: 900px) {
+      .hero-grid { grid-template-columns: 1.05fr 0.95fr; }
+    }
+    .hero-copy { position: relative; z-index: 1; }
+
+    /* Browser mockup — an abstract "site being built" in the brand palette.
+       Echoes the portfolio-card window treatment for a consistent language. */
+    .hero-visual { position: relative; z-index: 1; }
+    .hero-visual::before {
+      content: "";
       position: absolute;
-      z-index: 0;
-      top: calc(var(--header-h) + 0.5rem);
-      right: -70px;
-      width: min(44vw, 500px);
-      height: auto;
-      pointer-events: none;
+      z-index: -1;
+      top: -10%;
+      right: -8%;
+      width: 78%;
+      aspect-ratio: 1;
+      border-radius: 40px;
+      background: radial-gradient(circle at 50% 40%, rgba(190, 90, 56, 0.14), transparent 68%);
     }
-    @media (max-width: 719px) {
-      .hero-art {
-        top: auto;
-        right: -18%;
-        bottom: -10%;
-        width: 88%;
-        opacity: 0.5;
-      }
+    .mock {
+      max-width: 460px;
+      margin: 0 auto;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
     }
+    .mock-bar {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      height: 42px;
+      padding: 0 14px;
+      background: var(--cream-soft);
+      border-bottom: 1px solid var(--line);
+    }
+    .mock-dot { width: 9px; height: 9px; border-radius: 50%; flex: none; }
+    .mock-dot:nth-child(1) { background: var(--clay); }
+    .mock-dot:nth-child(2) { background: #C9915F; }
+    .mock-dot:nth-child(3) { background: var(--pine-soft); }
+    .mock-url {
+      flex: 1;
+      height: 17px;
+      margin-left: 8px;
+      border-radius: 999px;
+      background: var(--cream);
+      border: 1px solid var(--line);
+    }
+    .mock-screen {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 13px;
+    }
+    .mock-band {
+      background: linear-gradient(135deg, var(--pine), var(--pine-soft));
+      border-radius: 11px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+    .mock-band .bar { background: rgba(250, 245, 236, 0.92); }
+    .mock-band .bar.w55 { width: 55%; }
+    .mock-band .bar.w35 { width: 35%; }
+    .mock-pill {
+      width: 78px;
+      height: 21px;
+      margin-top: 4px;
+      border-radius: 999px;
+      background: var(--clay);
+    }
+    .mock-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    .mock-card {
+      height: 54px;
+      border-radius: 9px;
+      border: 1px solid var(--line);
+      background: var(--cream);
+    }
+    .mock-card:nth-child(1) { border-top: 3px solid var(--clay); }
+    .mock-card:nth-child(2) { border-top: 3px solid #C9915F; }
+    .mock-card:nth-child(3) { border-top: 3px solid var(--pine-soft); }
+    .mock-band .bar,
+    .mock-lines .bar {
+      display: block;
+      height: 9px;
+      border-radius: 999px;
+    }
+    .mock-lines { display: flex; flex-direction: column; gap: 9px; }
+    .mock-lines .bar { background: var(--line); }
+    .mock-lines .bar.w80 { width: 80%; }
+    .mock-lines .bar.w60 { width: 60%; }
 
     .cta-row { display: flex; flex-wrap: wrap; gap: 0.85rem; }
 
@@ -359,19 +444,25 @@
     }
 
     .card .icon {
-      width: 46px;
-      height: 46px;
+      width: 48px;
+      height: 48px;
       border-radius: 13px;
       display: grid;
       place-items: center;
-      background: rgba(190, 90, 56, 0.12);
-      color: var(--clay-deep);
+      background: linear-gradient(135deg, var(--clay), var(--clay-deep));
+      color: var(--cream);
+      box-shadow: 0 6px 14px rgba(190, 90, 56, 0.25);
       margin-bottom: 1.15rem;
-      transition: background-color 0.2s ease, transform 0.2s ease;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    /* Alternate the middle tile to pine for a bit of colour variety */
+    .card:nth-child(2) .icon {
+      background: linear-gradient(135deg, var(--pine-soft), var(--pine));
+      box-shadow: 0 6px 14px rgba(46, 70, 62, 0.25);
     }
     .card:hover .icon {
-      background: rgba(190, 90, 56, 0.18);
-      transform: scale(1.05);
+      transform: scale(1.08) rotate(-3deg);
+      box-shadow: 0 10px 20px rgba(41, 36, 29, 0.18);
     }
     .card .icon svg { width: 22px; height: 22px; }
 
@@ -529,6 +620,7 @@
       border: 1px solid var(--line);
       border-radius: var(--radius);
       padding: clamp(1.25rem, 4vw, 2rem);
+      box-shadow: var(--shadow-md);
     }
 
     label {
@@ -596,40 +688,40 @@
 
   <!-- ================= Hero ================= -->
   <section class="hero" id="top">
-    <!-- Decorative wireframe motif (purely presentational) -->
-    <svg class="hero-art" viewBox="0 0 440 340" fill="none" aria-hidden="true" focusable="false">
-      <g stroke="#2E463E" stroke-opacity="0.26" stroke-width="1.5">
-        <rect x="12" y="14" width="416" height="312" rx="18"/>
-        <line x1="12" y1="58" x2="428" y2="58"/>
-        <rect x="104" y="28" width="256" height="18" rx="9"/>
-      </g>
-      <g fill-opacity="0.30">
-        <circle cx="36" cy="37" r="5.5" fill="#BE5A38"/>
-        <circle cx="57" cy="37" r="5.5" fill="#C9915F"/>
-        <circle cx="78" cy="37" r="5.5" fill="#3D5A50"/>
-      </g>
-      <g stroke="#BE5A38" stroke-opacity="0.22" stroke-width="1.5">
-        <rect x="34" y="84" width="168" height="112" rx="10"/>
-      </g>
-      <g stroke="#2E463E" stroke-opacity="0.22" stroke-width="1.5" stroke-linecap="round">
-        <line x1="226" y1="96" x2="398" y2="96"/>
-        <line x1="226" y1="120" x2="398" y2="120"/>
-        <line x1="226" y1="144" x2="352" y2="144"/>
-        <line x1="226" y1="176" x2="326" y2="176"/>
-      </g>
-      <g stroke="#2E463E" stroke-opacity="0.20" stroke-width="1.5">
-        <rect x="34" y="224" width="116" height="80" rx="10"/>
-        <rect x="162" y="224" width="116" height="80" rx="10"/>
-        <rect x="290" y="224" width="116" height="80" rx="10"/>
-      </g>
-    </svg>
-    <div class="wrap">
-      <span class="eyebrow reveal">Freelance web developer</span>
-      <h1 class="reveal">Websites that work as hard as <em>you</em> do.</h1>
-      <p class="reveal">I build fast, friendly websites for small businesses — designed to bring in customers, easy to update, and cared for by one person you can actually talk to.</p>
-      <div class="cta-row reveal">
-        <a class="btn btn-primary" href="#contact">Start a project</a>
-        <a class="btn btn-ghost" href="#work">See my work</a>
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow reveal">Freelance web developer</span>
+        <h1 class="reveal">Websites that work as hard as <em>you</em> do.</h1>
+        <p class="reveal">I build fast, friendly websites for small businesses — designed to bring in customers, easy to update, and cared for by one person you can actually talk to.</p>
+        <div class="cta-row reveal">
+          <a class="btn btn-primary" href="#contact">Start a project</a>
+          <a class="btn btn-ghost" href="#work">See my work</a>
+        </div>
+      </div>
+      <!-- Abstract browser mockup (purely decorative) -->
+      <div class="hero-visual reveal" aria-hidden="true">
+        <div class="mock">
+          <div class="mock-bar">
+            <span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span>
+            <span class="mock-url"></span>
+          </div>
+          <div class="mock-screen">
+            <div class="mock-band">
+              <span class="bar w55"></span>
+              <span class="bar w35"></span>
+              <span class="mock-pill"></span>
+            </div>
+            <div class="mock-cards">
+              <span class="mock-card"></span>
+              <span class="mock-card"></span>
+              <span class="mock-card"></span>
+            </div>
+            <div class="mock-lines">
+              <span class="bar w80"></span>
+              <span class="bar w60"></span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
