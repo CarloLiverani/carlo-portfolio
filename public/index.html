@@ -7,7 +7,7 @@
   <meta name="description" content="Freelance web developer building fast, friendly websites for small businesses. Design, development, and ongoing care — all from one person you can actually talk to.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&display=swap" rel="stylesheet">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='46' fill='%23BE5A38'/%3E%3Ctext x='50' y='68' font-size='52' text-anchor='middle' fill='%23FAF5EC' font-family='Georgia'%3EC%3C/text%3E%3C/svg%3E">
 
   <style>
@@ -32,6 +32,11 @@
       --radius: 14px;
       --header-h: 64px;
       --pad: clamp(1.25rem, 5vw, 2.5rem);
+
+      /* Warm, tinted shadows — softer and more intentional than flat grey */
+      --shadow-sm: 0 2px 10px rgba(41, 36, 29, 0.05);
+      --shadow-md: 0 16px 36px rgba(41, 36, 29, 0.10);
+      --shadow-clay: 0 10px 24px rgba(190, 90, 56, 0.22);
     }
 
     /* ------------------------------------------------------------------
@@ -58,8 +63,9 @@
     h1, h2, h3 {
       font-family: var(--font-display);
       font-weight: 600;
-      line-height: 1.15;
-      letter-spacing: -0.01em;
+      line-height: 1.12;
+      letter-spacing: -0.02em;
+      font-optical-sizing: auto;
     }
 
     a { color: var(--clay-deep); }
@@ -69,17 +75,28 @@
     .wrap { max-width: 68rem; margin: 0 auto; }
 
     .eyebrow {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
       font-size: 0.8rem;
       font-weight: 600;
-      letter-spacing: 0.14em;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
       color: var(--clay-deep);
-      margin-bottom: 1rem;
+      margin-bottom: 1.1rem;
+    }
+    /* Small leading rule — a consistent "handmade" mark on every section */
+    .eyebrow::before {
+      content: "";
+      width: 26px;
+      height: 2px;
+      background: currentColor;
+      opacity: 0.65;
     }
 
     .section-title {
-      font-size: clamp(1.8rem, 5vw, 2.6rem);
+      font-size: clamp(1.9rem, 5vw, 2.7rem);
+      letter-spacing: -0.025em;
       margin-bottom: 0.75rem;
     }
 
@@ -188,13 +205,33 @@
         border: 0;
         padding: 0;
       }
-      nav a { border: 0; padding: 0.25rem 0; }
+      nav a {
+        position: relative;
+        border: 0;
+        padding: 0.25rem 0;
+      }
+      /* Underline grows from the left on hover */
+      nav a::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: -2px;
+        height: 2px;
+        background: var(--clay);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.25s ease;
+      }
+      nav a:hover::after { transform: scaleX(1); }
     }
 
     /* ------------------------------------------------------------------
        Hero
     ------------------------------------------------------------------ */
     .hero {
+      position: relative;
+      overflow: hidden;
       padding-top: calc(var(--header-h) + clamp(3.5rem, 12vw, 7rem));
       padding-bottom: clamp(4rem, 12vw, 7rem);
       background:
@@ -202,14 +239,32 @@
         radial-gradient(50rem 26rem at -10% 110%, rgba(46, 70, 62, 0.08), transparent 60%),
         var(--cream);
     }
+    /* Faint blueprint grid — reads as "plans being drawn", fades before text */
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(to right, rgba(46, 70, 62, 0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(46, 70, 62, 0.05) 1px, transparent 1px);
+      background-size: 34px 34px;
+      -webkit-mask-image: radial-gradient(125% 90% at 72% 0%, #000 28%, transparent 74%);
+      mask-image: radial-gradient(125% 90% at 72% 0%, #000 28%, transparent 74%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .hero .wrap { position: relative; z-index: 1; }
 
     .hero h1 {
-      font-size: clamp(2.4rem, 8vw, 4.2rem);
-      max-width: 16em;
-      margin-bottom: 1.25rem;
+      font-size: clamp(2.5rem, 8.2vw, 4.4rem);
+      font-weight: 560;
+      line-height: 1.05;
+      max-width: 15em;
+      margin-bottom: 1.35rem;
     }
     .hero h1 em {
       font-style: italic;
+      font-weight: 500;
       color: var(--clay);
     }
 
@@ -218,6 +273,26 @@
       color: var(--ink-soft);
       max-width: 34rem;
       margin-bottom: 2.25rem;
+    }
+
+    /* Line-art browser window floating behind the hero copy — "builds for the web" */
+    .hero-art {
+      position: absolute;
+      z-index: 0;
+      top: calc(var(--header-h) + 0.5rem);
+      right: -70px;
+      width: min(44vw, 500px);
+      height: auto;
+      pointer-events: none;
+    }
+    @media (max-width: 719px) {
+      .hero-art {
+        top: auto;
+        right: -18%;
+        bottom: -10%;
+        width: 88%;
+        opacity: 0.5;
+      }
     }
 
     .cta-row { display: flex; flex-wrap: wrap; gap: 0.85rem; }
@@ -229,21 +304,31 @@
       font-weight: 600;
       font-size: 1rem;
       text-decoration: none;
-      transition: transform 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+      transition: transform 0.18s ease, background-color 0.18s ease,
+                  color 0.18s ease, box-shadow 0.18s ease;
       border: 1.5px solid transparent;
       cursor: pointer;
     }
-    .btn:active { transform: scale(0.97); }
+    .btn:active { transform: translateY(0); }
 
     .btn-primary { background: var(--clay); color: #fff; }
-    .btn-primary:hover { background: var(--clay-deep); }
+    .btn-primary:hover {
+      background: var(--clay-deep);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-clay);
+    }
 
     .btn-ghost {
       border-color: var(--ink);
       color: var(--ink);
       background: transparent;
     }
-    .btn-ghost:hover { background: var(--ink); color: var(--cream); }
+    .btn-ghost:hover {
+      background: var(--ink);
+      color: var(--cream);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
 
     /* ------------------------------------------------------------------
        Services
@@ -264,17 +349,29 @@
       border: 1px solid var(--line);
       border-radius: var(--radius);
       padding: 1.75rem 1.5rem;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+      border-color: rgba(190, 90, 56, 0.35);
     }
 
     .card .icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
+      width: 46px;
+      height: 46px;
+      border-radius: 13px;
       display: grid;
       place-items: center;
       background: rgba(190, 90, 56, 0.12);
       color: var(--clay-deep);
-      margin-bottom: 1.1rem;
+      margin-bottom: 1.15rem;
+      transition: background-color 0.2s ease, transform 0.2s ease;
+    }
+    .card:hover .icon {
+      background: rgba(190, 90, 56, 0.18);
+      transform: scale(1.05);
     }
     .card .icon svg { width: 22px; height: 22px; }
 
@@ -298,16 +395,41 @@
       border-radius: var(--radius);
       overflow: hidden;
       background: #fff;
+      box-shadow: var(--shadow-sm);
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
     .project:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 14px 30px rgba(41, 36, 29, 0.09);
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-md);
     }
 
-    .project-accent { height: 8px; }
-    .accent-a { background: linear-gradient(90deg, var(--clay-deep), var(--clay)); }
-    .accent-b { background: linear-gradient(90deg, var(--pine), var(--pine-soft)); }
+    /* Each card reads as a small browser window: colored tab strip,
+       traffic-light dots, and an empty address bar */
+    .project-accent {
+      position: relative;
+      height: 42px;
+      border-top: 3px solid var(--clay);
+      border-bottom: 1px solid var(--line);
+      background:
+        radial-gradient(circle at 18px 50%, var(--clay) 0 3.5px, transparent 4.5px),
+        radial-gradient(circle at 33px 50%, #C9915F 0 3.5px, transparent 4.5px),
+        radial-gradient(circle at 48px 50%, var(--pine-soft) 0 3.5px, transparent 4.5px),
+        var(--cream-soft);
+    }
+    .project-accent::after {
+      content: "";
+      position: absolute;
+      left: 66px;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      height: 18px;
+      border-radius: 999px;
+      background: var(--cream);
+      border: 1px solid var(--line);
+    }
+    .accent-a { border-top-color: var(--clay); }
+    .accent-b { border-top-color: var(--pine-soft); }
 
     .project-body { padding: 1.75rem 1.5rem; }
     .project-body h3 { font-size: 1.3rem; margin-bottom: 0.4rem; }
@@ -321,18 +443,43 @@
     .project-body p { color: var(--ink-soft); font-size: 0.97rem; margin-top: 0.5rem; }
     .project-link {
       display: inline-block;
-      margin-top: 0.35rem;
+      margin-top: 0.6rem;
       font-weight: 600;
       font-size: 0.95rem;
       color: var(--clay-deep);
       text-decoration: none;
+      /* Underline drawn as a background so it can animate its width */
+      background-image: linear-gradient(currentColor, currentColor);
+      background-size: 0% 1.5px;
+      background-repeat: no-repeat;
+      background-position: left bottom;
+      transition: background-size 0.28s ease;
     }
-    .project-link:hover { text-decoration: underline; }
+    .project-link:hover { background-size: 100% 1.5px; }
 
     /* ------------------------------------------------------------------
        About
     ------------------------------------------------------------------ */
-    .about { background: var(--pine); color: var(--cream); }
+    .about {
+      position: relative;
+      overflow: hidden;
+      background: var(--pine);
+      color: var(--cream);
+    }
+    /* Same blueprint grid, light lines — ties the dark band into the motif */
+    .about::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(to right, rgba(250, 245, 236, 0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(250, 245, 236, 0.05) 1px, transparent 1px);
+      background-size: 34px 34px;
+      -webkit-mask-image: radial-gradient(120% 90% at 15% 0%, #000 30%, transparent 72%);
+      mask-image: radial-gradient(120% 90% at 15% 0%, #000 30%, transparent 72%);
+      pointer-events: none;
+    }
+    .about .wrap { position: relative; z-index: 1; }
     .about .eyebrow { color: #E8B296; }
     .about .section-title { color: var(--cream); }
     .about p { color: rgba(250, 245, 236, 0.82); max-width: 40rem; }
@@ -449,6 +596,33 @@
 
   <!-- ================= Hero ================= -->
   <section class="hero" id="top">
+    <!-- Decorative wireframe motif (purely presentational) -->
+    <svg class="hero-art" viewBox="0 0 440 340" fill="none" aria-hidden="true" focusable="false">
+      <g stroke="#2E463E" stroke-opacity="0.26" stroke-width="1.5">
+        <rect x="12" y="14" width="416" height="312" rx="18"/>
+        <line x1="12" y1="58" x2="428" y2="58"/>
+        <rect x="104" y="28" width="256" height="18" rx="9"/>
+      </g>
+      <g fill-opacity="0.30">
+        <circle cx="36" cy="37" r="5.5" fill="#BE5A38"/>
+        <circle cx="57" cy="37" r="5.5" fill="#C9915F"/>
+        <circle cx="78" cy="37" r="5.5" fill="#3D5A50"/>
+      </g>
+      <g stroke="#BE5A38" stroke-opacity="0.22" stroke-width="1.5">
+        <rect x="34" y="84" width="168" height="112" rx="10"/>
+      </g>
+      <g stroke="#2E463E" stroke-opacity="0.22" stroke-width="1.5" stroke-linecap="round">
+        <line x1="226" y1="96" x2="398" y2="96"/>
+        <line x1="226" y1="120" x2="398" y2="120"/>
+        <line x1="226" y1="144" x2="352" y2="144"/>
+        <line x1="226" y1="176" x2="326" y2="176"/>
+      </g>
+      <g stroke="#2E463E" stroke-opacity="0.20" stroke-width="1.5">
+        <rect x="34" y="224" width="116" height="80" rx="10"/>
+        <rect x="162" y="224" width="116" height="80" rx="10"/>
+        <rect x="290" y="224" width="116" height="80" rx="10"/>
+      </g>
+    </svg>
     <div class="wrap">
       <span class="eyebrow reveal">Freelance web developer</span>
       <h1 class="reveal">Websites that work as hard as <em>you</em> do.</h1>
@@ -549,7 +723,7 @@
       <div class="contact-inner">
         <div class="contact-note reveal">
           <p>Tell me a bit about your business and what you have in mind. I’ll get back to you within one business day with honest advice and a clear next step — no pressure, no jargon.</p>
-          <p class="direct">Prefer email? Reach me directly at <a href="mailto:carloliverani2011@icloud.com">carloliverani2011@icloud.com</a>.</p>
+          <p class="direct">Prefer email? Reach me directly at <a href="mailto:contact@carlobuilds.com">contact@carlobuilds.com</a>.</p>
         </div>
 
         <form id="contact-form" class="reveal" novalidate>
@@ -661,7 +835,7 @@
           status.classList.add('error');
         }
       } catch {
-        status.textContent = 'That took too long — please try again, or email me directly at carloliverani2011@icloud.com.';
+        status.textContent = 'That took too long — please try again, or email me directly at contact@carlobuilds.com.';
         status.classList.add('error');
       } finally {
         clearTimeout(timeout);
