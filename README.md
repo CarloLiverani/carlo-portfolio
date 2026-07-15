@@ -26,7 +26,7 @@ environment variables (on Railway: project → Variables):
 | Variable             | Example                        | Notes                                              |
 | -------------------- | ------------------------------ | -------------------------------------------------- |
 | `RESEND_API_KEY`     | `re_xxxxxxxx`                  | **Required.** Your Resend API key                  |
-| `CONTACT_TO_EMAIL`   | `carloliverani2011@icloud.com` | Where submissions land (this is the default)       |
+| `CONTACT_TO_EMAIL`   | `contact@carlobuilds.com`      | Where submissions land (this is the default)       |
 | `CONTACT_FROM_EMAIL` | `onboarding@resend.dev`        | Sender address; defaults to Resend's shared sender |
 
 `CONTACT_FROM_EMAIL` defaults to `onboarding@resend.dev`, which works with no

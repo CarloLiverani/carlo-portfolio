@@ -21,7 +21,7 @@ const PORT = process.env.PORT || 3000;
 // Email configuration (via environment variables — set these on Railway)
 // ---------------------------------------------------------------------------
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
-const CONTACT_TO_EMAIL = process.env.CONTACT_TO_EMAIL || 'carloliverani2011@icloud.com';
+const CONTACT_TO_EMAIL = process.env.CONTACT_TO_EMAIL || 'contact@carlobuilds.com';
 // Must be an address Resend lets you send from. `onboarding@resend.dev` works
 // out of the box; switch to an address on your own verified domain later.
 const CONTACT_FROM_EMAIL = process.env.CONTACT_FROM_EMAIL || 'onboarding@resend.dev';
