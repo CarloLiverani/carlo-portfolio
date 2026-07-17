@@ -287,98 +287,81 @@
     }
     .hero-copy { position: relative; z-index: 1; }
 
-    /* Browser mockup — an abstract "site being built" in the brand palette.
-       Echoes the portfolio-card window treatment for a consistent language. */
+    /* Computer illustration — a monitor showing a website in the brand
+       palette. A clear, solid focal point (no photo required). */
     .hero-visual { position: relative; z-index: 1; }
     .hero-visual::before {
       content: "";
       position: absolute;
       z-index: -1;
-      top: -10%;
-      right: -8%;
-      width: 78%;
-      aspect-ratio: 1;
-      border-radius: 40px;
-      background: radial-gradient(circle at 50% 40%, rgba(190, 90, 56, 0.14), transparent 68%);
+      inset: -8% -6% -6% -8%;
+      background: radial-gradient(circle at 55% 42%, rgba(190, 90, 56, 0.12), transparent 66%);
     }
-    .mock {
-      max-width: 460px;
-      margin: 0 auto;
-      background: #fff;
-      border: 1px solid var(--line);
+    .computer { max-width: 460px; margin: 0 auto; }
+    .monitor {
+      background: var(--ink);
       border-radius: 16px;
+      padding: 14px 14px 16px;
       box-shadow: var(--shadow-md);
-      overflow: hidden;
     }
-    .mock-bar {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      height: 42px;
-      padding: 0 14px;
-      background: var(--cream-soft);
-      border-bottom: 1px solid var(--line);
-    }
-    .mock-dot { width: 9px; height: 9px; border-radius: 50%; flex: none; }
-    .mock-dot:nth-child(1) { background: var(--clay); }
-    .mock-dot:nth-child(2) { background: #C9915F; }
-    .mock-dot:nth-child(3) { background: var(--pine-soft); }
-    .mock-url {
-      flex: 1;
-      height: 17px;
-      margin-left: 8px;
-      border-radius: 999px;
-      background: var(--cream);
-      border: 1px solid var(--line);
-    }
-    .mock-screen {
+    .screen {
+      background: #fff;
+      border-radius: 8px;
       padding: 16px;
       display: flex;
       flex-direction: column;
       gap: 13px;
+      overflow: hidden;
     }
-    .mock-band {
+    .site-band {
       background: linear-gradient(135deg, var(--pine), var(--pine-soft));
-      border-radius: 11px;
+      border-radius: 10px;
       padding: 18px;
       display: flex;
       flex-direction: column;
       gap: 9px;
     }
-    .mock-band .bar { background: rgba(250, 245, 236, 0.92); }
-    .mock-band .bar.w55 { width: 55%; }
-    .mock-band .bar.w35 { width: 35%; }
-    .mock-pill {
-      width: 78px;
+    .bar { display: block; height: 9px; border-radius: 999px; }
+    .bar.w55 { width: 55%; } .bar.w35 { width: 35%; }
+    .bar.w80 { width: 80%; } .bar.w60 { width: 60%; }
+    .site-band .bar { background: rgba(250, 245, 236, 0.92); }
+    .site-btn {
+      width: 80px;
       height: 21px;
       margin-top: 4px;
       border-radius: 999px;
       background: var(--clay);
     }
-    .mock-cards {
+    .site-cards {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 10px;
     }
-    .mock-card {
+    .site-cards span {
+      display: block;
       height: 54px;
       border-radius: 9px;
       border: 1px solid var(--line);
       background: var(--cream);
     }
-    .mock-card:nth-child(1) { border-top: 3px solid var(--clay); }
-    .mock-card:nth-child(2) { border-top: 3px solid #C9915F; }
-    .mock-card:nth-child(3) { border-top: 3px solid var(--pine-soft); }
-    .mock-band .bar,
-    .mock-lines .bar {
-      display: block;
-      height: 9px;
-      border-radius: 999px;
+    .site-cards span:nth-child(1) { border-top: 3px solid var(--clay); }
+    .site-cards span:nth-child(2) { border-top: 3px solid #C9915F; }
+    .site-cards span:nth-child(3) { border-top: 3px solid var(--pine-soft); }
+    .site-lines { display: flex; flex-direction: column; gap: 9px; }
+    .site-lines .bar { background: var(--line); }
+    .stand-neck {
+      width: 74px;
+      height: 24px;
+      margin: 0 auto;
+      background: var(--ink);
     }
-    .mock-lines { display: flex; flex-direction: column; gap: 9px; }
-    .mock-lines .bar { background: var(--line); }
-    .mock-lines .bar.w80 { width: 80%; }
-    .mock-lines .bar.w60 { width: 60%; }
+    .stand-base {
+      width: 168px;
+      height: 13px;
+      margin: 0 auto;
+      border-radius: 7px;
+      background: var(--ink);
+    }
 
     .cta-row { display: flex; flex-wrap: wrap; gap: 0.85rem; }
 
@@ -698,29 +681,27 @@
           <a class="btn btn-ghost" href="#work">See my work</a>
         </div>
       </div>
-      <!-- Abstract browser mockup (purely decorative) -->
+      <!-- Computer illustration (decorative) -->
       <div class="hero-visual reveal" aria-hidden="true">
-        <div class="mock">
-          <div class="mock-bar">
-            <span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span>
-            <span class="mock-url"></span>
-          </div>
-          <div class="mock-screen">
-            <div class="mock-band">
-              <span class="bar w55"></span>
-              <span class="bar w35"></span>
-              <span class="mock-pill"></span>
-            </div>
-            <div class="mock-cards">
-              <span class="mock-card"></span>
-              <span class="mock-card"></span>
-              <span class="mock-card"></span>
-            </div>
-            <div class="mock-lines">
-              <span class="bar w80"></span>
-              <span class="bar w60"></span>
+        <div class="computer">
+          <div class="monitor">
+            <div class="screen">
+              <div class="site-band">
+                <span class="bar w55"></span>
+                <span class="bar w35"></span>
+                <span class="site-btn"></span>
+              </div>
+              <div class="site-cards">
+                <span></span><span></span><span></span>
+              </div>
+              <div class="site-lines">
+                <span class="bar w80"></span>
+                <span class="bar w60"></span>
+              </div>
             </div>
           </div>
+          <div class="stand-neck"></div>
+          <div class="stand-base"></div>
         </div>
       </div>
     </div>
