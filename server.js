@@ -87,7 +87,7 @@ app.post('/api/contact', async (req, res) => {
       },
       signal: controller.signal,
       body: JSON.stringify({
-        from: `Portfolio contact form <${CONTACT_FROM_EMAIL}>`,
+        from: `Carlo Liverani <contact@carlobuilds.com>`,
         to: [CONTACT_TO_EMAIL],
         reply_to: safeEmail,
         subject: `New inquiry from ${safeName}`,
