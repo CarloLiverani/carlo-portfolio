@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book a call — Carlo Liverani</title>
+  <meta name="description" content="Book a free 15-minute consultation with Carlo Liverani, freelance web developer.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='46' fill='%23BE5A38'/%3E%3Ctext x='50' y='68' font-size='52' text-anchor='middle' fill='%23FAF5EC' font-family='Georgia'%3EC%3C/text%3E%3C/svg%3E">
+
+  <style>
+    :root {
+      --cream:      #FAF5EC;
+      --cream-soft: #F2EADC;
+      --ink:        #29241D;
+      --ink-soft:   #5C554A;
+      --clay:       #BE5A38;
+      --clay-deep:  #A34A2B;
+      --pine:       #2E463E;
+      --pine-soft:  #3D5A50;
+      --line:       #E4D9C6;
+      --font-display: "Fraunces", Georgia, serif;
+      --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      --radius: 14px;
+      --header-h: 64px;
+      --pad: clamp(1.25rem, 5vw, 2.5rem);
+      --shadow-sm: 0 2px 10px rgba(41, 36, 29, 0.05);
+      --shadow-md: 0 16px 36px rgba(41, 36, 29, 0.10);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--cream);
+      color: var(--ink);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+    h1, h2, h3 { font-family: var(--font-display); font-weight: 600; line-height: 1.12; letter-spacing: -0.02em; }
+    a { color: var(--clay-deep); }
+
+    header {
+      position: fixed; inset: 0 0 auto 0; height: var(--header-h);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 var(--pad);
+      background: rgba(250, 245, 236, 0.88);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+      z-index: 50;
+    }
+    .logo { font-family: var(--font-display); font-size: 1.15rem; font-weight: 600; color: var(--ink); text-decoration: none; }
+    .logo span { color: var(--clay); }
+    .back-link { font-weight: 500; text-decoration: none; color: var(--ink); font-size: 0.95rem; }
+    .back-link:hover { color: var(--clay-deep); }
+
+    main {
+      max-width: 44rem;
+      margin: 0 auto;
+      padding: calc(var(--header-h) + clamp(2.5rem, 8vw, 4.5rem)) var(--pad) clamp(4rem, 10vw, 6rem);
+      position: relative;
+    }
+    /* Faint blueprint grid, same motif as the home hero */
+    .page-bg {
+      position: fixed; inset: 0; pointer-events: none; z-index: -1;
+      background-image:
+        linear-gradient(to right, rgba(46, 70, 62, 0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(46, 70, 62, 0.05) 1px, transparent 1px);
+      background-size: 34px 34px;
+      -webkit-mask-image: radial-gradient(120% 70% at 50% 0%, #000 20%, transparent 75%);
+      mask-image: radial-gradient(120% 70% at 50% 0%, #000 20%, transparent 75%);
+    }
+
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 0.7rem;
+      font-size: 0.8rem; font-weight: 600; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--clay-deep); margin-bottom: 1.1rem;
+    }
+    .eyebrow::before { content: ""; width: 26px; height: 2px; background: currentColor; opacity: 0.65; }
+
+    h1 { font-size: clamp(2rem, 6.5vw, 2.9rem); margin-bottom: 0.75rem; }
+    .lede { color: var(--ink-soft); margin-bottom: 2rem; max-width: 34rem; }
+
+    .service-card {
+      display: flex; align-items: center; gap: 1rem;
+      background: #fff; border: 1px solid var(--line); border-radius: var(--radius);
+      padding: 1.1rem 1.3rem; margin-bottom: 2.25rem; box-shadow: var(--shadow-sm);
+    }
+    .service-card .icon {
+      flex: none; width: 46px; height: 46px; border-radius: 13px;
+      display: grid; place-items: center; color: var(--cream);
+      background: linear-gradient(135deg, var(--clay), var(--clay-deep));
+      box-shadow: 0 6px 14px rgba(190, 90, 56, 0.25);
+    }
+    .service-card .icon svg { width: 22px; height: 22px; }
+    .service-card strong { font-size: 1.05rem; }
+    .service-card p { color: var(--ink-soft); font-size: 0.92rem; }
+
+    .step-label {
+      font-weight: 600; font-size: 0.95rem; margin-bottom: 0.8rem;
+      display: flex; align-items: center; gap: 0.55rem;
+    }
+    .step-label .n {
+      flex: none; width: 24px; height: 24px; border-radius: 50%;
+      background: var(--pine); color: var(--cream);
+      display: grid; place-items: center; font-size: 0.8rem;
+    }
+
+    /* Day picker: horizontally scrollable chips (thumb-friendly) */
+    .days {
+      display: flex; gap: 0.6rem; overflow-x: auto; padding: 0.25rem 0.25rem 0.9rem;
+      scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch;
+    }
+    .day-chip {
+      flex: none; scroll-snap-align: start;
+      border: 1.5px solid var(--line); border-radius: 12px; background: #fff;
+      padding: 0.55rem 0.95rem; font: inherit; font-weight: 600; font-size: 0.92rem;
+      color: var(--ink); cursor: pointer; transition: border-color 0.15s, background 0.15s, color 0.15s;
+    }
+    .day-chip .dow { display: block; font-size: 0.75rem; font-weight: 600; color: var(--ink-soft); letter-spacing: 0.06em; text-transform: uppercase; }
+    .day-chip[aria-pressed="true"] { background: var(--pine); border-color: var(--pine); color: var(--cream); }
+    .day-chip[aria-pressed="true"] .dow { color: rgba(250, 245, 236, 0.75); }
+
+    .slots {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+      gap: 0.6rem; margin: 0.4rem 0 2.25rem;
+    }
+    .slot {
+      border: 1.5px solid var(--line); border-radius: 999px; background: #fff;
+      padding: 0.6rem 0.4rem; font: inherit; font-weight: 600; font-size: 0.92rem;
+      color: var(--ink); cursor: pointer; text-align: center;
+      transition: border-color 0.15s, background 0.15s, color 0.15s, transform 0.15s;
+    }
+    .slot:hover { border-color: var(--clay); }
+    .slot[aria-pressed="true"] { background: var(--clay); border-color: var(--clay); color: #fff; transform: scale(1.04); }
+
+    form {
+      display: grid; gap: 1.1rem;
+      background: #fff; border: 1px solid var(--line); border-radius: var(--radius);
+      padding: clamp(1.25rem, 4vw, 2rem);
+      box-shadow: var(--shadow-md);
+    }
+    .picked {
+      background: var(--cream-soft); border: 1px solid var(--line); border-radius: 10px;
+      padding: 0.7rem 1rem; font-size: 0.95rem;
+    }
+    .picked strong { color: var(--clay-deep); }
+    label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.35rem; }
+    .optional { color: var(--ink-soft); font-weight: 500; }
+    input, textarea {
+      width: 100%; font: inherit; color: var(--ink);
+      background: var(--cream); border: 1px solid var(--line); border-radius: 10px;
+      padding: 0.8rem 0.95rem;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+    input:focus, textarea:focus {
+      outline: none; border-color: var(--clay);
+      box-shadow: 0 0 0 3px rgba(190, 90, 56, 0.15);
+    }
+    textarea { min-height: 6.5rem; resize: vertical; }
+
+    /* Honeypot: visually removed, still in the DOM for bots */
+    .hp-field { position: absolute; left: -9999px; top: -9999px; height: 1px; width: 1px; overflow: hidden; }
+
+    .btn {
+      display: inline-block; padding: 0.9rem 1.6rem; border-radius: 999px;
+      font-weight: 600; font-size: 1rem; text-decoration: none; cursor: pointer;
+      border: 1.5px solid transparent; background: var(--clay); color: #fff;
+      transition: transform 0.18s ease, background-color 0.18s ease, box-shadow 0.18s ease;
+    }
+    .btn:hover { background: var(--clay-deep); transform: translateY(-2px); box-shadow: 0 10px 24px rgba(190, 90, 56, 0.22); }
+    .btn:disabled { opacity: 0.6; cursor: default; transform: none; box-shadow: none; }
+
+    .form-status { font-size: 0.95rem; min-height: 1.4em; }
+    .form-status.error { color: #A3402B; }
+
+    .state-note { color: var(--ink-soft); padding: 1rem 0 2rem; }
+
+    .success {
+      background: var(--pine); color: var(--cream);
+      border-radius: var(--radius); padding: clamp(1.5rem, 5vw, 2.25rem);
+      box-shadow: var(--shadow-md);
+    }
+    .success h2 { color: var(--cream); font-size: 1.5rem; margin-bottom: 0.5rem; }
+    .success p { color: rgba(250, 245, 236, 0.85); }
+    .success .when { color: #E8B296; font-weight: 600; }
+    .success a { color: #E8B296; }
+
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+  <div class="page-bg" aria-hidden="true"></div>
+
+  <header>
+    <a class="logo" href="/">Carlo Liverani<span>.</span></a>
+    <a class="back-link" href="/">&larr; Back to site</a>
+  </header>
+
+  <main>
+    <span class="eyebrow">Book a call</span>
+    <h1>Let’s talk about your website.</h1>
+    <p class="lede">Pick a time that suits you and I’ll call you — a relaxed 15-minute chat about your business and what a website could do for it. No cost, no obligation.</p>
+
+    <div class="service-card">
+      <div class="icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      </div>
+      <div>
+        <strong>Free 15-minute consultation</strong>
+        <p>A phone call — all times shown in US Eastern Time.</p>
+      </div>
+    </div>
+
+    <div id="picker">
+      <div class="step-label"><span class="n">1</span> Pick a day</div>
+      <div class="days" id="days" role="group" aria-label="Available days"></div>
+
+      <div class="step-label"><span class="n">2</span> Pick a time</div>
+      <div class="slots" id="slots" role="group" aria-label="Available times"></div>
+    </div>
+    <p class="state-note hidden" id="loading">Loading available times…</p>
+    <p class="state-note hidden" id="load-error"></p>
+
+    <form id="booking-form" class="hidden" novalidate>
+      <div class="step-label" style="margin-bottom:0"><span class="n">3</span> Your details</div>
+      <p class="picked">Booking: <strong id="picked-label"></strong></p>
+      <div>
+        <label for="name">Your name</label>
+        <input id="name" name="name" type="text" autocomplete="name" required>
+      </div>
+      <div>
+        <label for="businessName">Business name <span class="optional">(optional)</span></label>
+        <input id="businessName" name="businessName" type="text" autocomplete="organization">
+      </div>
+      <div>
+        <label for="email">Email address</label>
+        <input id="email" name="email" type="email" autocomplete="email" required>
+      </div>
+      <div>
+        <label for="phone">Phone number</label>
+        <input id="phone" name="phone" type="tel" autocomplete="tel" required>
+      </div>
+      <div>
+        <label for="message">What would you like to talk about?</label>
+        <textarea id="message" name="message" placeholder="A sentence or two about your business…"></textarea>
+      </div>
+      <!-- Honeypot: humans never see this; bots that fill it get silently ignored -->
+      <div class="hp-field" aria-hidden="true">
+        <label for="website">Website</label>
+        <input id="website" name="website" type="text" tabindex="-1" autocomplete="off">
+      </div>
+      <button class="btn" type="submit">Confirm booking</button>
+      <p class="form-status" role="status" aria-live="polite"></p>
+    </form>
+
+    <div class="success hidden" id="success">
+      <h2>You’re booked in.</h2>
+      <p>Your free consultation is confirmed for <span class="when" id="success-when"></span>.</p>
+      <p style="margin-top:0.6rem">A confirmation email is on its way. I’ll call you at the number you provided — talk soon!</p>
+      <p style="margin-top:0.6rem"><a href="/">&larr; Back to the site</a></p>
+    </div>
+  </main>
+
+  <script>
+    const daysEl = document.getElementById('days');
+    const slotsEl = document.getElementById('slots');
+    const pickerEl = document.getElementById('picker');
+    const loadingEl = document.getElementById('loading');
+    const loadErrorEl = document.getElementById('load-error');
+    const formEl = document.getElementById('booking-form');
+    const pickedLabelEl = document.getElementById('picked-label');
+    const statusEl = formEl.querySelector('.form-status');
+    const submitBtn = formEl.querySelector('button[type="submit"]');
+    const successEl = document.getElementById('success');
+
+    let days = [];
+    let selectedDay = null;
+    let selectedSlot = null; // { iso, label }
+
+    function show(el, on) { el.classList.toggle('hidden', !on); }
+
+    async function loadSlots(keepSelection) {
+      show(loadingEl, true); show(loadErrorEl, false); loadErrorEl.style.color = '';
+      try {
+        const res = await fetch('/api/slots');
+        const body = await res.json();
+        if (!res.ok || !body.ok) throw new Error(body.error || 'Failed to load');
+        days = body.days;
+        show(loadingEl, false);
+        if (days.length === 0) {
+          loadErrorEl.textContent = 'No open slots in the next two weeks — please use the contact form on the main site.';
+          show(loadErrorEl, true); show(pickerEl, false);
+          return;
+        }
+        if (!keepSelection || !days.some(d => d.key === selectedDay)) selectedDay = days[0].key;
+        renderDays(); renderSlots();
+      } catch (err) {
+        show(loadingEl, false);
+        loadErrorEl.textContent = err.message === 'Failed to fetch'
+          ? 'Couldn’t load available times — check your connection and refresh.'
+          : err.message;
+        show(loadErrorEl, true); show(pickerEl, false);
+      }
+    }
+
+    function renderDays() {
+      daysEl.innerHTML = '';
+      for (const d of days) {
+        const [dow, rest] = d.label.split(', ');
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'day-chip';
+        btn.setAttribute('aria-pressed', String(d.key === selectedDay));
+        btn.innerHTML = '<span class="dow"></span><span class="date"></span>';
+        btn.querySelector('.dow').textContent = dow;
+        btn.querySelector('.date').textContent = rest;
+        btn.addEventListener('click', () => {
+          selectedDay = d.key; selectedSlot = null;
+          show(formEl, false);
+          renderDays(); renderSlots();
+        });
+        daysEl.appendChild(btn);
+      }
+    }
+
+    function renderSlots() {
+      slotsEl.innerHTML = '';
+      const day = days.find(d => d.key === selectedDay);
+      if (!day) return;
+      for (const s of day.slots) {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'slot';
+        btn.textContent = s.label;
+        btn.setAttribute('aria-pressed', String(selectedSlot && selectedSlot.iso === s.iso));
+        btn.addEventListener('click', () => {
+          selectedSlot = s;
+          pickedLabelEl.textContent = day.label + ' at ' + s.label + ' (Eastern)';
+          renderSlots();
+          show(formEl, true);
+          formEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+        slotsEl.appendChild(btn);
+      }
+    }
+
+    formEl.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      statusEl.textContent = ''; statusEl.className = 'form-status';
+
+      if (!selectedSlot) {
+        statusEl.textContent = 'Please pick a day and time first.';
+        statusEl.classList.add('error');
+        return;
+      }
+      const data = {
+        slotStart: selectedSlot.iso,
+        name: formEl.name.value.trim(),
+        businessName: formEl.businessName.value.trim(),
+        email: formEl.email.value.trim(),
+        phone: formEl.phone.value.trim(),
+        message: formEl.message.value.trim(),
+        website: formEl.website.value, // honeypot
+      };
+      if (!data.name || !data.email || !data.phone) {
+        statusEl.textContent = 'Please fill in your name, email, and phone number.';
+        statusEl.classList.add('error');
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Booking…';
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 20000);
+      try {
+        const res = await fetch('/api/bookings', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+          signal: controller.signal,
+        });
+        const body = await res.json().catch(() => ({}));
+        if (res.ok && body.ok) {
+          document.getElementById('success-when').textContent = body.when || pickedLabelEl.textContent;
+          show(pickerEl, false); show(formEl, false); show(successEl, true);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else if (res.status === 409) {
+          selectedSlot = null;
+          show(formEl, false);
+          await loadSlots(true); // refresh availability, keep the chosen day
+          loadErrorEl.textContent = body.error || 'That slot just got taken — please pick another time.';
+          loadErrorEl.style.color = '#A3402B';
+          show(loadErrorEl, true);
+          pickerEl.scrollIntoView({ behavior: 'smooth' });
+        } else {
+          statusEl.textContent = body.error || 'Something went wrong — please try again.';
+          statusEl.classList.add('error');
+        }
+      } catch {
+        statusEl.textContent = 'That took too long — please check your connection and try again.';
+        statusEl.classList.add('error');
+      } finally {
+        clearTimeout(timeout);
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Confirm booking';
+      }
+    });
+
+    loadSlots(false);
+  </script>
+</body>
+</html>
